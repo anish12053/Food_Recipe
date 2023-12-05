@@ -1,16 +1,17 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'package:food_idea/model.dart';
 import 'package:flutter/material.dart';
+import 'package:food_idea/model.dart';
 import 'package:http/http.dart';
-import 'package:food_idea/search.dart';
+import 'dart:convert';
 
-class Home extends StatefulWidget {
+class Search extends StatefulWidget {
+  String query;
+  Search(this.query);
+
   @override
-  State<Home> createState() => _HomeState();
+  State<Search> createState() => _SearchState();
 }
 
-class _HomeState extends State<Home> {
+class _SearchState extends State<Search> {
   bool isLoading = true;
   List<ReciepeModel> reciepeList = <ReciepeModel>[];
   TextEditingController searchController = new TextEditingController();
@@ -32,22 +33,17 @@ class _HomeState extends State<Home> {
         });
       });
     });
-
-    // reciepeList.forEach((element) {
-    //   print(element.applabel);
-    //   print(element.appcalories);
-    // });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getRecipe("Ladoo");
+    getRecipe(widget.query);
   }
 
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -82,7 +78,7 @@ class _HomeState extends State<Home> {
                               print("Blank search");
                             } else {
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Search(searchController.text)));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Search(searchController.text)));
 
 
                             }
@@ -104,22 +100,6 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "WHAT DO YOU WANT TO COOK TODAY?",
-                        style: TextStyle(fontSize: 33, color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("Let's Cook Something New!", style: TextStyle(fontSize: 20,color: Colors.white),)
-                    ],
                   ),
                 ),
                 Container(
@@ -162,12 +142,7 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                 ),
-                                // Positioned(
-                                //   right: 0,
-                                //   child: Container(
-                                //     color: Colors.white,
-                                //     child: Text(reciepeList[index].appcalories.toString().substring(0,5)),
-                                //   ),)
+
                               ],
                             ),
                           ),
