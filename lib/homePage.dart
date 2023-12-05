@@ -20,20 +20,29 @@ class _HomeState extends State<Home> {
     Response response = await get(Uri.parse(url));
     Map data = jsonDecode(response.body);
 
-    data["hits"].forEach((element) {
-      ReciepeModel reciepeModel = new ReciepeModel();
-      reciepeModel = ReciepeModel.fromMap(element["recipe"]);
-      reciepeList.add(reciepeModel);
+    setState(() {
+      data["hits"].forEach((element) {
+        ReciepeModel reciepeModel = new ReciepeModel();
+        reciepeModel = ReciepeModel.fromMap(element["recipe"]);
+        reciepeList.add(reciepeModel);
+      });
     });
 
-    reciepeList.forEach((element) {
-      print(element.applabel);
-      print(element.appcalories);
-    });
+    // reciepeList.forEach((element) {
+    //   print(element.applabel);
+    //   print(element.appcalories);
+    // });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getRecipe("Ladoo");
   }
 
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -104,7 +113,7 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         height: 10,
                       ),
-                      //Text("Let's Cook Something New!", style: TextStyle(fontSize: 20,color: Colors.white),)
+                      Text("Let's Cook Something New!", style: TextStyle(fontSize: 20,color: Colors.white),)
                     ],
                   ),
                 ),
